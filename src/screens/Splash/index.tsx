@@ -1,4 +1,4 @@
-import { IRootAuthProps } from "@navigations/Auth/types";
+import { IRootAuthProps, RootAuthParamsList } from "@navigations/Auth/types";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image } from "react-native";
@@ -11,9 +11,9 @@ import {
   useFonts,
 } from "@expo-google-fonts/poppins";
 import { Screen } from "@components/templates/screen";
-import { Title, Spinner, LightLabel } from "@components/atoms";
+import { Title, Spinner, Label } from "@components/atoms";
 import { IMAGES } from "@assets/index";
-import { Link } from "@components/molecules";
+import { Link, PrimaryButton } from "@components/molecules";
 
 const Splash = () => {
   const [fontsLoaded] = useFonts({
@@ -24,28 +24,38 @@ const Splash = () => {
   });
   const navigation = useNavigation<IRootAuthProps>();
 
-  function goToSignUp() {
-    navigation.navigate("SignIn");
-  }
-
-  if (!fontsLoaded)
-    return (
-      <Screen lightScreen={false}>
-        <Title isLight={true} text="Loading app informations" />
-        <Spinner />
-      </Screen>
-    );
-
   return (
     <Screen lightScreen={false}>
       <Title isLight={true} text="ShareThis" />
-      <LightLabel text="List, Share, Complete your shared activities" />
+      <Label
+        isLight={true}
+        text="List, Share, Complete your shared activities"
+      />
       <Image
+        style={{ width: 300, height: 400 }} // 339 x486
         source={IMAGES.splash}
         alt="Splash screen image"
         resizeMode="contain"
       />
-      <Link onPress={goToSignUp}>Subscribe here</Link>
+      {fontsLoaded ? (
+        <>
+          <PrimaryButton
+            text="Sign in"
+            onPress={() => navigation.navigate("SignIn")}
+          />
+          <Link
+            isLight={true}
+            onPress={() => navigation.navigate("SignUp", { email: undefined })}
+          >
+            Subscribe here
+          </Link>
+        </>
+      ) : (
+        <>
+          <Title isLight={true} text="Loading app informations" />
+          <Spinner />
+        </>
+      )}
     </Screen>
   );
 };

@@ -1,12 +1,26 @@
+import { IMAGES } from "@assets/index";
+import { Title } from "@components/atoms";
+import { SecundaryButton } from "@components/molecules";
+import { Screen } from "@components/templates/screen";
+import { IRootAuthProps } from "@navigations/Auth/types";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text } from "react-native";
+import { Image } from "react-native";
 
-export const SignUp = () => {
+const SignUp = () => {
+  const navigation = useNavigation<IRootAuthProps>();
+
+  function handleSignUp() {
+    console.log("handleSignIn");
+    setTimeout(() => navigation.navigate("SignIn"), 550);
+  }
   return (
-    <View style={{ flex: 1, justifyContent: "center" }}>
-      <View>
-        <Text>Sign up Screen</Text>
-      </View>
-    </View>
+    <Screen lightScreen={true}>
+      <Image source={IMAGES.shareThis} style={{ marginBottom: 47 }} />
+      <Title isLight={false} text="Fill in your information" />
+      <SecundaryButton text="Subscribe" onPress={handleSignUp} />
+    </Screen>
   );
 };
+
+export default SignUp;

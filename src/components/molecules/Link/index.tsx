@@ -1,16 +1,17 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { GestureResponderEvent, TouchableOpacity } from "react-native";
-import { LightLabel } from "@components/atoms";
+import { Label } from "@components/atoms";
 
 interface LinkProps {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   children: string;
+  isLight?: boolean;
 }
 
-const Link: React.FC<LinkProps> = ({ onPress, children }) => {
+const Link: React.FC<LinkProps> = ({ onPress, children, isLight = false }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <LightLabel text={children} />
+      <Label isLight={isLight} text={children} />
     </TouchableOpacity>
   );
 };
