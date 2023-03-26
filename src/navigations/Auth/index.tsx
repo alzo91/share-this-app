@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Splash } from "@screens/Splash";
+import Splash from "@screens/Splash";
 import { SignIn } from "@screens/SignIn";
 import { SignUp } from "@screens/SignUp";
 import { Forgot } from "@screens/Forgot";
