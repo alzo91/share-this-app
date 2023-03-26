@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "types": ["jest", "react-native", "node"]
+  },
+  "extends": "expo/tsconfig.base"
+}
