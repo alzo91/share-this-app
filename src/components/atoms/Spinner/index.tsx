@@ -1,8 +1,10 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, ActivityIndicatorProps } from "react-native";
 
-const Spinner = () => {
-  return <ActivityIndicator />;
-};
+interface SpinnerProps extends ActivityIndicatorProps {}
+
+const Spinner: React.FC<SpinnerProps> = ({ testID, ...rest }) => (
+  <ActivityIndicator testID={testID} {...rest} />
+);
 
 export default Spinner;

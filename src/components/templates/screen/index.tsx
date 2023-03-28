@@ -1,9 +1,14 @@
 import React from "react";
 import { Container } from "./styles";
 
-export const Screen: React.FC<{ children: any; lightScreen?: boolean }> = ({
-  children,
-  lightScreen,
-}) => {
-  return <Container lightScreen={lightScreen}>{children}</Container>;
-};
+interface ScreenProps {
+  children: any;
+  lightScreen?: boolean;
+  testID?: string;
+}
+
+export const Screen: React.FC<ScreenProps> = (props) => (
+  <Container testID={`screen-${props.testID}`} lightScreen={props.lightScreen}>
+    {props.children}
+  </Container>
+);

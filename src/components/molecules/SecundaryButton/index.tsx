@@ -5,16 +5,15 @@ import { Container, ButtonContainer, LabelButton } from "./styles";
 interface ButtonProps {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   text: string;
+  testID?: string;
 }
 
-const SecundaryButton: React.FC<ButtonProps> = ({ text, onPress }) => {
-  return (
-    <Container>
-      <ButtonContainer onPress={onPress}>
-        <LabelButton>{text}</LabelButton>
-      </ButtonContainer>
-    </Container>
-  );
-};
+const SecundaryButton: React.FC<ButtonProps> = ({ text, onPress, testID }) => (
+  <Container testID={`button-container-${testID}`}>
+    <ButtonContainer testID={`button-${testID}`} onPress={onPress}>
+      <LabelButton testID={`button-label-${testID}`}>{text}</LabelButton>
+    </ButtonContainer>
+  </Container>
+);
 
 export default SecundaryButton;

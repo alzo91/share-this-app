@@ -6,14 +6,18 @@ interface LinkProps {
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   children: string;
   isLight?: boolean;
+  testID?: string;
 }
 
-const Link: React.FC<LinkProps> = ({ onPress, children, isLight = false }) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <Label isLight={isLight} text={children} />
-    </TouchableOpacity>
-  );
-};
+const Link: React.FC<LinkProps> = ({
+  onPress,
+  children,
+  isLight = false,
+  testID,
+}) => (
+  <TouchableOpacity testID={`link-container-${testID}`} onPress={onPress}>
+    <Label isLight={isLight} text={children} />
+  </TouchableOpacity>
+);
 
 export default Link;
