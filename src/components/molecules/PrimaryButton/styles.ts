@@ -6,6 +6,9 @@ export const Container = styled.View`
 `;
 
 export const ButtonContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   border-color: ${(props) => props.theme.COLORS.WHITE};
   border-width: 1px;
   border-radius: 15px;
@@ -17,6 +20,7 @@ export const ButtonContainer = styled.TouchableOpacity`
 `;
 
 export const LabelButton = styled.Text`
+  margin-left: 5px;
   font-family: ${(props) => props.theme.FONTS.SEMI_BOLD};
   color: ${(props) => props.theme.COLORS.WHITE};
 `;

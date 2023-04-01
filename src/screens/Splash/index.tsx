@@ -28,6 +28,7 @@ const Splash = () => {
       <PrimaryButton
         text="Sign in"
         onPress={() => navigation.navigate("SignIn")}
+        iconName="login"
       />
       <Link
         isLight={true}
