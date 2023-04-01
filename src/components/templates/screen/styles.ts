@@ -7,7 +7,7 @@ export const Container = styled.View<ICotainerProps>`
   flex: 1;
   justify-content: center;
   align-items: center;
-  padding: 3px;
+  padding: 5px;
   background-color: ${(props) =>
     props.lightScreen ? props.theme.COLORS.WHITE : props.theme.COLORS.TERTIARY};
 `;
