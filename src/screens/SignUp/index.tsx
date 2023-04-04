@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Image, Alert } from "react-native";
+import { Image } from "react-native";
 import { IRootAuthProps } from "@navigations/Auth/types";
 import { useNavigation } from "@react-navigation/native";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,8 +12,12 @@ import { Screen } from "@components/templates/screen";
 
 import FormInput from "@components/molecules/FormInput";
 import { signupValidation } from "@utils/validations";
+import auth from "@react-native-firebase/auth";
+import firestore from "@react-native-firebase/firestore";
 
-const SignUp = () => {
+function SignUp() {
+  const [isCreating, setIsCreating] = useState<boolean>(false);
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -25,9 +29,34 @@ const SignUp = () => {
 
   const navigation = useNavigation<IRootAuthProps>();
 
-  const onSubmit = handleSubmit((data) => {
-    const message = `Under construction.\n${data.email} password: ${data.password}`;
-    Alert.alert("Share This", message);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setIsCreating(true);
+
+      const { user } = await auth().createUserWithEmailAndPassword(
+        data.email,
+        data.password
+      );
+
+      await firestore().collection("users").doc(user.uid).set({
+        uuid: user.uid,
+        uid: user.uid,
+        email: user.email,
+        photoURL: user.photoURL,
+        phoneNumber: user.phoneNumber,
+        displayName: user.displayName,
+        emailVerified: false,
+        isAnonymous: false,
+        providerId: user.providerId,
+        metada: user.metadata,
+      });
+
+      navigation.goBack();
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setIsCreating(false);
+    }
   });
 
   return (
@@ -55,9 +84,13 @@ const SignUp = () => {
         iconName={"eye"}
         secureTextEntry={true}
       />
-      <SecundaryButton text="Subscribe" onPress={onSubmit} />
+      <SecundaryButton
+        text="Subscribe"
+        onPress={onSubmit}
+        isLoad={isCreating}
+      />
     </Screen>
   );
-};
+}
 
 export default SignUp;

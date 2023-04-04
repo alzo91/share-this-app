@@ -1,9 +1,10 @@
-import React from "react";
-import { Alert, Image } from "react-native";
+import React, { useState } from "react";
+import { Image } from "react-native";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRootAuthProps } from "@navigations/Auth/types";
 import { useNavigation } from "@react-navigation/native";
+import auth from "@react-native-firebase/auth";
 
 import { IMAGES } from "@assets/index";
 import { Title } from "@components/atoms";
@@ -13,7 +14,9 @@ import { Screen } from "@components/templates/screen";
 
 import { signinValidation } from "@utils/validations";
 
-const SignIn = () => {
+function SignIn() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -24,9 +27,19 @@ const SignIn = () => {
 
   const navigation = useNavigation<IRootAuthProps>();
 
-  const onSubmit = handleSubmit((data) => {
-    const message = `Under construction.\n${data.email} password: ${data.password}`;
-    Alert.alert("Share This", message);
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      const logged = await auth().signInWithEmailAndPassword(
+        data.email,
+        data.password
+      );
+      console.log("SignIn", JSON.stringify(logged));
+      setIsLoading(true);
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setIsLoading(false);
+    }
   });
 
   return (
@@ -47,7 +60,7 @@ const SignIn = () => {
         secureTextEntry={true}
       />
 
-      <SecundaryButton text="Sign in" onPress={onSubmit} />
+      <SecundaryButton text="Sign in" onPress={onSubmit} isLoad={isLoading} />
       <Link
         isLight={false}
         onPress={() => navigation.navigate("Forgot", { email: "" })}
@@ -55,6 +68,6 @@ const SignIn = () => {
       />
     </Screen>
   );
-};
+}
 
 export default SignIn;

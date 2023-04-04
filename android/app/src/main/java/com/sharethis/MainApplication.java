@@ -14,7 +14,7 @@ import com.facebook.soloader.SoLoader;
 
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
-
+import androidx.multidex.MultiDexApplication; // Added to firebase
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {

@@ -1,11 +1,11 @@
-import { IRootAuthProps } from "@navigations/Auth/types";
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Image } from "react-native";
+import { IRootAuthProps } from "@navigations/Auth/types";
+import { useNavigation } from "@react-navigation/native";
 
+import { IMAGES } from "@assets/index";
 import { Screen } from "@components/templates/screen";
 import { Title, Label } from "@components/atoms";
-import { IMAGES } from "@assets/index";
 import { Link, PrimaryButton } from "@components/molecules";
 
 const Splash = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Label } from "@components/atoms";
+import { Input } from "@components/atoms";
 import { Control, useController } from "react-hook-form";
 import AppAlert from "../Error";
 import { useTheme } from "styled-components/native";
@@ -12,7 +12,7 @@ interface FormInputProps {
   secureTextEntry?: boolean;
 }
 const FormInput: React.FC<FormInputProps> = (props) => {
-  const [isSecureTextEntry, setIsSecureTextEntry] = useState(
+  const [isSecureTextEntry, setIsSecureTextEntry] = useState<boolean>(
     props.secureTextEntry ?? false
   );
 
