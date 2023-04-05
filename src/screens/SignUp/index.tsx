@@ -14,10 +14,12 @@ import FormInput from "@components/molecules/FormInput";
 import { signupValidation } from "@utils/validations";
 import auth from "@react-native-firebase/auth";
 import firestore from "@react-native-firebase/firestore";
+import { useToast } from "@hooks/ToastHook";
+import { sleep } from "@utils/sleep";
 
 function SignUp() {
   const [isCreating, setIsCreating] = useState<boolean>(false);
-
+  const { showToast } = useToast();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -50,7 +52,13 @@ function SignUp() {
         providerId: user.providerId,
         metada: user.metadata,
       });
-
+      showToast({
+        title: "Share This",
+        text: "User was created succeful!",
+        timeout: 3000,
+        type: "sucess",
+      });
+      await sleep(3250);
       navigation.goBack();
     } catch (error) {
       console.log({ error });

@@ -38,7 +38,7 @@ function Forgot() {
   });
 
   return (
-    <Screen lightScreen={false}>
+    <Screen lightScreen={true}>
       <Image source={IMAGES.shareThis} style={{ marginBottom: 47 }} />
       <Title isLight={false} text="Recovery your account" />
       <FormInput
