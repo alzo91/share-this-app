@@ -14,6 +14,7 @@ import { ThemeProvider } from "styled-components/native";
 
 import Navigations from "./navigations";
 import theme from "./theme";
+import HookProviders from "./hooks";
 
 // ExpoSplashScreen.preventAutoHideAsync();
 
@@ -34,14 +35,12 @@ function App() {
   // if (!fontsLoaded) return <View />;
 
   return (
-    <>
-      {/*<GestureHandlerRootView style={{ flex: 1 }}> */}
+    <ThemeProvider theme={theme}>
       <StatusBar backgroundColor={theme.COLORS.TERTIARY} style="light" />
-      <ThemeProvider theme={theme}>
+      <HookProviders>
         <Navigations />
-      </ThemeProvider>
-      {/* </GestureHandlerRootView> */}
-    </>
+      </HookProviders>
+    </ThemeProvider>
   );
 }
 
