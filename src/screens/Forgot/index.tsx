@@ -12,11 +12,14 @@ import { Title } from "@components/atoms";
 import FormInput from "@components/molecules/FormInput";
 import { Link, SecundaryButton } from "@components/molecules";
 import { forgotinValidation } from "@utils/validations";
+import { useToast } from "@hooks/ToastHook";
+import { sleep } from "@utils/sleep";
 
 function Forgot() {
   const [isLoad, setLoad] = useState<boolean>(false);
-  const { goBack } = useNavigation();
 
+  const { showToast } = useToast();
+  const { goBack } = useNavigation();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       email: "",
@@ -25,11 +28,17 @@ function Forgot() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    // const message = `Under construction.\n${data.email}`;
-    // Alert.alert("Share This", message);
     try {
       setLoad(true);
       await auth().sendPasswordResetEmail(data.email);
+      showToast({
+        title: "Forgot your password",
+        text: `We sent you an email to recovery your password. Please, check your email`,
+        type: "info",
+        timeout: 3000,
+      });
+      await sleep(3150);
+      goBack();
     } catch (error) {
       console.error({ error });
     } finally {
