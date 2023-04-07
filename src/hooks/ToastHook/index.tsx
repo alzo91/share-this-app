@@ -1,9 +1,8 @@
-import { AnimatePresence } from "moti";
 import React, { createContext, useContext, useEffect, useState } from "react";
-
-import Toast from "@components/atoms/Toast";
+import { AnimatePresence } from "moti";
 
 import { IToastContextData, IToastTypes, IShowToastProps } from "./interface";
+import Toast from "@components/atoms/Toast";
 
 const ToastContext = createContext({} as IToastContextData);
 
@@ -51,11 +50,11 @@ const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 function useToast() {
-  const context = useContext(ToastContext);
-  if (!context) {
+  const toatContext = useContext(ToastContext);
+  if (!toatContext) {
     throw new Error("useToast can't use here");
   }
-  return context;
+  return toatContext;
 }
 
 export { ToastContext, ToastProvider, useToast };

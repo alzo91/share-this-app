@@ -18,22 +18,31 @@ const Toast: React.FC<IToastProps> = ({ type, text, title, setVisible }) => {
   const mainColor = useMemo(() => {
     switch (type) {
       case "error":
-        return theme.COLORS.ERROR_DARK;
+        return {
+          background: theme.COLORS.ERROR_DARK,
+          text: theme.COLORS.WHITE,
+        };
 
       case "warning":
-        return theme.COLORS.WARNING_LIGHT;
+        return {
+          background: theme.COLORS.WARNING_LIGHT,
+          text: theme.COLORS.PRIMARY_900,
+        };
 
       case "sucess":
-        return theme.COLORS.SUCCESS_LIGHT;
+        return {
+          background: theme.COLORS.SUCCESS_LIGHT,
+          text: theme.COLORS.WHITE,
+        };
 
       default:
-        return theme.COLORS.INFO_DARK;
+        return { background: theme.COLORS.INFO_DARK, text: theme.COLORS.WHITE };
     }
   }, [type]);
 
   return (
     <Container
-      color={mainColor}
+      color={mainColor.background}
       from={{
         opacity: 0,
         translateY: -10,
@@ -47,16 +56,16 @@ const Toast: React.FC<IToastProps> = ({ type, text, title, setVisible }) => {
         translateY: -10,
       }}
     >
-      <StatusBar backgroundColor={mainColor} />
+      <StatusBar backgroundColor={mainColor.background} />
 
       <Content>
-        <Title testID="toast_title_id" text={title} />
-        <Label testID="toast_text_id" text={text} />
+        <Title testID="toast_title_id" text={title} color={mainColor.text} />
+        <Label testID="toast_text_id" text={text} color={mainColor.text} />
       </Content>
 
       <Icon
         name="x"
-        color={theme.COLORS.WHITE}
+        color={mainColor.text}
         size={15}
         onPress={() => setVisible(false)}
       />

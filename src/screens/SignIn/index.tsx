@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image } from "react-native";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRootAuthProps } from "@navigations/Auth/types";
 import { useNavigation } from "@react-navigation/native";
-import auth from "@react-native-firebase/auth";
 
 import { IMAGES } from "@assets/index";
 import { Title } from "@components/atoms";
@@ -13,9 +12,10 @@ import FormInput from "@components/molecules/FormInput";
 import { Screen } from "@components/templates/screen";
 
 import { signinValidation } from "@utils/validations";
+import { useAuth } from "@hooks/AuthHook";
 
 function SignIn() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isLoading, loggin } = useAuth();
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -28,18 +28,8 @@ function SignIn() {
   const navigation = useNavigation<IRootAuthProps>();
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      const logged = await auth().signInWithEmailAndPassword(
-        data.email,
-        data.password
-      );
-      console.log("SignIn", JSON.stringify(logged));
-      setIsLoading(true);
-    } catch (error) {
-      console.error({ error });
-    } finally {
-      setIsLoading(false);
-    }
+    const logged = await loggin(data);
+    if (!logged.error) console.log("Logged success");
   });
 
   return (
