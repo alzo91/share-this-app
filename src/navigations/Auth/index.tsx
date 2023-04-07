@@ -6,9 +6,9 @@ import SignUp from "@screens/SignUp";
 import Forgot from "@screens/Forgot";
 import { RootAuthParamsList } from "./types";
 
-const Stack = createNativeStackNavigator<RootAuthParamsList>();
-
 function Auth() {
+  const Stack = createNativeStackNavigator<RootAuthParamsList>();
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Splash" component={Splash} />
