@@ -13,24 +13,28 @@ const Splash = () => {
 
   return (
     <Screen lightScreen={false}>
-      <Title isLight={true} text="ShareThis" />
+      <Title isLight={true} text="ShareThis" testID="mainTitle" />
       <Label
         isLight={true}
         text="List, Share, Complete your shared activities"
+        testID="title-description"
       />
       <Image
         style={{ width: 300, height: 400 }} // 339 x486
         source={IMAGES.splash}
         alt="Splash screen image"
         resizeMode="contain"
+        testID="splash-image"
       />
 
       <PrimaryButton
         text="Sign in"
         onPress={() => navigation.navigate("SignIn")}
         iconName="login"
+        testID="login"
       />
       <Link
+        testID="subscribe"
         isLight={true}
         onPress={() => navigation.navigate("SignUp", { email: undefined })}
       >

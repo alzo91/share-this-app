@@ -8,12 +8,17 @@ const config: Config.InitialOptions = {
     "jest-styled-components",
     "jest-styled-components/native",
   ],
-  setupFiles: ["react-native-gesture-handler/jestSetup"],
+  transformIgnorePatterns: [
+    "node_modules/(?!((jest-)?react-native|moti/.*|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)",
+  ],
+  setupFiles: [
+    "react-native-gesture-handler/jestSetup",
+    "./tests/mocks/setup.ts",
+  ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx"],
   collectCoverage: true,
   coverageDirectory: "tests/reports/jest",
   collectCoverageFrom: [
-    "<rootDir>/test-libs/**",
     "<rootDir>/src/components/**",
     "<rootDir>/src/hooks/**",
     "<rootDir>/src/screens/**",

@@ -32,8 +32,8 @@ function SignUp() {
 
   return (
     <Screen lightScreen={true}>
-      <Image source={IMAGES.shareThis} style={{ margin: 12 }} />
-      <Title isLight={false} text="Fill in your information" />
+      <Image testID="logo" source={IMAGES.shareThis} style={{ margin: 12 }} />
+      <Title isLight={false} text="Fill in your information" testID="signup" />
       <FormInput
         control={control}
         name={"email"}

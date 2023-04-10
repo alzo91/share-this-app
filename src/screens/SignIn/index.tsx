@@ -34,8 +34,16 @@ function SignIn() {
 
   return (
     <Screen lightScreen={true}>
-      <Image source={IMAGES.shareThis} style={{ marginBottom: 47 }} />
-      <Title isLight={false} text="Login with your credentials" />
+      <Image
+        testID="logo"
+        source={IMAGES.shareThis}
+        style={{ marginBottom: 47 }}
+      />
+      <Title
+        isLight={false}
+        text="Login with your credentials"
+        testID="login"
+      />
       <FormInput
         control={control}
         name={"email"}
@@ -50,7 +58,12 @@ function SignIn() {
         secureTextEntry={true}
       />
 
-      <SecundaryButton text="Sign in" onPress={onSubmit} isLoad={isLoading} />
+      <SecundaryButton
+        text="Sign in"
+        onPress={onSubmit}
+        isLoad={isLoading}
+        testID="login"
+      />
       <Link
         isLight={false}
         onPress={() => navigation.navigate("Forgot", { email: "" })}

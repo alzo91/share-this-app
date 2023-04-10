@@ -31,8 +31,12 @@ function Forgot() {
 
   return (
     <Screen lightScreen={true}>
-      <Image source={IMAGES.shareThis} style={{ marginBottom: 47 }} />
-      <Title isLight={false} text="Recovery your account" />
+      <Image
+        testID="logo"
+        source={IMAGES.shareThis}
+        style={{ marginBottom: 47 }}
+      />
+      <Title testID="forgot" isLight={false} text="Recovery your account" />
       <FormInput
         control={control}
         name={"email"}
@@ -41,6 +45,7 @@ function Forgot() {
       />
 
       <SecundaryButton
+        testID="recovery"
         text="Recovery it!"
         onPress={onSubmit}
         isLoad={isLoading}

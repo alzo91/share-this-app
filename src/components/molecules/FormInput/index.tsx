@@ -27,6 +27,7 @@ const FormInput: React.FC<FormInputProps> = (props) => {
   return (
     <>
       <Input
+        testID={`input-${props.name}`}
         onBlur={field.onBlur}
         onChangeText={field.onChange}
         value={field.value}
