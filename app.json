@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "share-this",
+    "name": "Share This",
     "slug": "share-this",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.sharethis"
+    }
   }
 }
