@@ -10,6 +10,7 @@ interface FormInputProps {
   placeHolder: string;
   iconName?: string;
   secureTextEntry?: boolean;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined;
 }
 const FormInput: React.FC<FormInputProps> = (props) => {
   const [isSecureTextEntry, setIsSecureTextEntry] = useState<boolean>(
@@ -35,6 +36,7 @@ const FormInput: React.FC<FormInputProps> = (props) => {
         error={!!errors[props.name]}
         iconName={props.iconName}
         secureTextEntry={isSecureTextEntry}
+        autoCapitalize={props.autoCapitalize}
         iconOnPress={
           props.secureTextEntry
             ? () => setIsSecureTextEntry(!isSecureTextEntry)
