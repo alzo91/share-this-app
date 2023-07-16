@@ -45,6 +45,7 @@ yarn-error.log
 
 # CocoaPods
 /ios/Pods/
+/ios/Podfile.lock
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
