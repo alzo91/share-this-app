@@ -49,6 +49,7 @@ function SignIn() {
         name={"email"}
         placeHolder={"email"}
         iconName={"email"}
+        autoCapitalize="none"
       />
       <FormInput
         control={control}
