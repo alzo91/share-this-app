@@ -15,7 +15,7 @@ import { signinValidation } from "@utils/validations";
 import { useAuth } from "@hooks/AuthHook";
 
 function SignIn() {
-  const { isLoading, loggin } = useAuth();
+  const { isLoading, logging } = useAuth();
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -28,7 +28,7 @@ function SignIn() {
   const navigation = useNavigation<IRootAuthProps>();
 
   const onSubmit = handleSubmit(async (data) => {
-    const logged = await loggin(data);
+    const logged = await logging(data);
     if (!logged.error) console.log("Logged success");
   });
 

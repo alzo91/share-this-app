@@ -1,48 +1,48 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
-import { Container, Content, IContainerProps } from "./style";
-import { Title, Label } from "../";
 import theme from "src/theme";
+import { Container, Content } from "./style";
+import { StatusProps, ToastComponentProps } from "./interface";
+import { Title, Label } from "../index";
 
-export type IToastProps = IContainerProps & {
-  title: string;
-  text: string;
-  timeout: number;
-  isVisible: boolean;
-  setVisible: Function;
+const statusScreen: StatusProps = {
+  error: {
+    background: theme.COLORS.ERROR_DARK,
+    text: theme.COLORS.WHITE,
+  },
+  warning: {
+    background: theme.COLORS.WARNING_LIGHT,
+    text: theme.COLORS.PRIMARY_900,
+  },
+  success: {
+    background: theme.COLORS.SUCCESS_LIGHT,
+    text: theme.COLORS.WHITE,
+  },
+  info: {
+    background: theme.COLORS.INFO_LIGHT,
+    text: theme.COLORS.WHITE,
+  },
 };
 
-const Toast: React.FC<IToastProps> = ({ type, text, title, setVisible }) => {
-  const mainColor = useMemo(() => {
-    switch (type) {
-      case "error":
-        return {
-          background: theme.COLORS.ERROR_DARK,
-          text: theme.COLORS.WHITE,
-        };
+function Toast(props: ToastComponentProps) {
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
-      case "warning":
-        return {
-          background: theme.COLORS.WARNING_LIGHT,
-          text: theme.COLORS.PRIMARY_900,
-        };
+  const colors = useMemo(() => statusScreen[props.type], [props.type]);
 
-      case "sucess":
-        return {
-          background: theme.COLORS.SUCCESS_LIGHT,
-          text: theme.COLORS.WHITE,
-        };
-
-      default:
-        return { background: theme.COLORS.INFO_DARK, text: theme.COLORS.WHITE };
-    }
-  }, [type]);
+  useEffect(() => {
+    if (timerId) clearTimeout(timerId);
+    const timeoutId = setTimeout(() => props.closeAction(), props.timeout);
+    setTimerId(timeoutId);
+    return () => {
+      if (timerId) clearTimeout(timerId);
+    };
+  }, []);
 
   return (
     <Container
-      color={mainColor.background}
+      color={colors.background}
       from={{
         opacity: 0,
         translateY: -10,
@@ -56,21 +56,29 @@ const Toast: React.FC<IToastProps> = ({ type, text, title, setVisible }) => {
         translateY: -10,
       }}
     >
-      <StatusBar backgroundColor={mainColor.background} />
+      <StatusBar backgroundColor={colors.background} />
 
       <Content>
-        <Title testID="toast_title_id" text={title} color={mainColor.text} />
-        <Label testID="toast_text_id" text={text} color={mainColor.text} />
+        <Title
+          testID="toast_title_id"
+          text={`${props.title}`}
+          color={colors.text}
+        />
+        <Label
+          testID="toast_text_id"
+          text={`${props.text}`}
+          color={colors.text}
+        />
       </Content>
 
       <Icon
         name="x"
-        color={mainColor.text}
+        color={colors.text}
         size={15}
-        onPress={() => setVisible(false)}
+        onPress={() => props.closeAction()}
       />
     </Container>
   );
-};
+}
 
 export default Toast;

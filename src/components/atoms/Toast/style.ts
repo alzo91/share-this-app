@@ -1,16 +1,16 @@
-import {View} from 'moti';
-import {Dimensions} from 'react-native';
-import styled from 'styled-components/native';
+import { View } from "moti";
+import { Dimensions } from "react-native";
+import styled from "styled-components/native";
 
 export type IContainerProps = {
-  type?: 'warning' | 'error' | 'sucess' | 'info';
+  type?: "warning" | "error" | "success" | "info";
   color?: string;
 };
 
 export const Container = styled(View)<IContainerProps>`
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   display: flex;
-  min-width: ${Dimensions.get('screen').width}px;
+  min-width: ${Dimensions.get("screen").width}px;
   padding: 45px 10px 10px;
   position: absolute;
   flex-direction: row;

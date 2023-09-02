@@ -1,14 +1,16 @@
-type IToastTypes = "warning" | "error" | "sucess" | "info" | undefined;
+type ToastTypes = "warning" | "error" | "success" | "info";
 
-interface IShowToastProps {
-  title: string;
-  text: string;
-  type: IToastTypes;
+type ToastProps = {
+  title?: string;
+  text?: string;
+  type: ToastTypes;
   timeout?: number;
-}
+  open: boolean;
+};
 
-interface IToastContextData {
-  showToast(props: IShowToastProps): void;
-}
+type ToastState = ToastProps & {
+  showToast: (props: ToastProps) => void;
+  clear: () => void;
+};
 
-export { IToastTypes, IShowToastProps, IToastContextData };
+export { ToastTypes, ToastState, ToastProps };

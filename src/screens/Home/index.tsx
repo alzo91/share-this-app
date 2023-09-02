@@ -53,7 +53,7 @@ function Home() {
       }}
     >
       <View style={{ flexDirection: "row", width: "100%", top: 8, margin: 28 }}>
-        <View
+        <TouchableOpacity
           style={{
             height: 57,
             width: 57,
@@ -62,9 +62,10 @@ function Home() {
             alignItems: "center",
             justifyContent: "center",
           }}
+          onPress={logout}
         >
           <Label text={initials} color={theme.COLORS.WHITE} />
-        </View>
+        </TouchableOpacity>
         <View style={{ marginHorizontal: 8 }}>
           <Title text={`Fala ai, ${split_email}`} />
           <TouchableOpacity

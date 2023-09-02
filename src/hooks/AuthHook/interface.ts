@@ -1,20 +1,20 @@
-import { IToastTypes } from "@hooks/ToastHook/interface";
+import { ToastTypes } from "@hooks/ToastHook/interface";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 export interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-export interface ForgotPassowordProps {
+export interface ForgotPasswordProps {
   email: string;
 }
 
-export interface LogginProps {
+export interface LoggingProps {
   email: string;
   password: string;
 }
 
-export interface SubscribeProps extends LogginProps {
+export interface SubscribeProps extends LoggingProps {
   passwordConfirmation: string;
 }
 
@@ -27,8 +27,8 @@ export interface AuthContextProps {
   isLoading: boolean;
   error: string | undefined;
   subscribe(data: SubscribeProps): Promise<boolean>;
-  forgotPassword(data: ForgotPassowordProps): Promise<boolean>;
-  loggin(data: LogginProps): Promise<LoggedUserProps>;
+  forgotPassword(data: ForgotPasswordProps): Promise<boolean>;
+  logging(data: LoggingProps): Promise<LoggedUserProps>;
   user: UserProps | null;
   logout(): Promise<void>;
 }
@@ -36,7 +36,7 @@ export interface AuthContextProps {
 export interface NotifyProps {
   title: string;
   text: string;
-  type: IToastTypes;
+  type: ToastTypes;
 }
 
 export interface UserProps extends FirebaseAuthTypes.User {

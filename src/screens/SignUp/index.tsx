@@ -27,7 +27,11 @@ function SignUp() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    await subscribe(data);
+    await subscribe({
+      email: data.email,
+      password: data.password,
+      passwordConfirmation: data.passwordConfirmation!,
+    });
   });
 
   return (

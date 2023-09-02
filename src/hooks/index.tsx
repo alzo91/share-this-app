@@ -1,5 +1,5 @@
 import React from "react";
-import { ToastProvider } from "./ToastHook";
+import { ToastProvider } from "./ToastHook/provider";
 import { AuthProvider } from "./AuthHook";
 
 function HookProviders({ children }: { children: React.ReactNode }) {
