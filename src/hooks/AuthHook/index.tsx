@@ -27,7 +27,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
     setUser(user);
-    console.log("onAuthStateChanged", JSON.stringify(user));
+    // console.log("onAuthStateChanged", JSON.stringify(user));
   }
 
   useEffect(() => {

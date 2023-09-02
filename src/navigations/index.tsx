@@ -7,16 +7,10 @@ import { useAuth } from "@hooks/AuthHook";
 
 function Navigations() {
   const { user } = useAuth();
-  if (user === null)
-    return (
-      <NavigationContainer>
-        <AuthNavigation />
-      </NavigationContainer>
-    );
 
   return (
     <NavigationContainer>
-      <LoggedNavigation />
+      {user === null ? <AuthNavigation /> : <LoggedNavigation />}
     </NavigationContainer>
   );
 }
