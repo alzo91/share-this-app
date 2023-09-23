@@ -13,12 +13,7 @@ function Home() {
   const theme = useTheme();
 
   const split_email = user?.email?.split("@")[0];
-  const initials = split_email
-    ? (
-        split_email.split(".")[0].charAt(0) +
-        split_email?.split(".")[1].charAt(0)
-      ).toUpperCase()
-    : "";
+  const initials = split_email ? split_email.charAt(0).toUpperCase() : "";
 
   async function getShares() {
     try {
@@ -64,10 +59,10 @@ function Home() {
           }}
           onPress={logout}
         >
-          <Label text={initials} color={theme.COLORS.WHITE} />
+          <Title text={initials} color={theme.COLORS.WHITE} />
         </TouchableOpacity>
         <View style={{ marginHorizontal: 8 }}>
-          <Title text={`Fala ai, ${split_email}`} />
+          <Title text={`Hi, ${split_email}`} />
           <TouchableOpacity
             activeOpacity={0.3}
             onPress={() => {
