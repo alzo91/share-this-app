@@ -6,10 +6,25 @@ interface LabelProps {
   isLight?: boolean;
   testID?: string;
   color?: string;
+  fontSize?: number;
+  numberOfLines?: number;
 }
 
-const Label: React.FC<LabelProps> = ({ text, isLight, testID, color }) => (
-  <Text testID={`label-${testID}`} isLight={isLight} color={color}>
+const Label: React.FC<LabelProps> = ({
+  text,
+  isLight,
+  testID,
+  color,
+  fontSize = 12,
+  numberOfLines,
+}) => (
+  <Text
+    testID={`label-${testID}`}
+    isLight={isLight}
+    color={color}
+    fontSize={fontSize}
+    numberOfLines={numberOfLines}
+  >
     {text}
   </Text>
 );

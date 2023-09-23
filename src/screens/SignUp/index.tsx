@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { IMAGES } from "@assets/index";
 import { Title } from "@components/atoms";
-import { SecundaryButton } from "@components/molecules";
+import { SecondaryButton } from "@components/molecules";
 import { Screen } from "@components/templates/screen";
 import FormInput from "@components/molecules/FormInput";
 
@@ -59,7 +59,7 @@ function SignUp() {
         iconName={"eye"}
         secureTextEntry={true}
       />
-      <SecundaryButton text="Subscribe" onPress={onSubmit} isLoad={isLoading} />
+      <SecondaryButton text="Subscribe" onPress={onSubmit} isLoad={isLoading} />
     </Screen>
   );
 }

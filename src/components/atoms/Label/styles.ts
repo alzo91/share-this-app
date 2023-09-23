@@ -4,11 +4,12 @@ import { Text as Label } from "react-native-paper";
 interface TextProps {
   isLight?: boolean;
   color?: string;
+  fontSize?: number;
 }
 
 export const Text = styled(Label)<TextProps>`
   font-family: ${(props) => props.theme.FONTS.REGULAR};
-  font-size: 12px;
+  font-size: ${(props) => props.fontSize ?? 12}px;
   color: ${(props) =>
     props.color
       ? props.color

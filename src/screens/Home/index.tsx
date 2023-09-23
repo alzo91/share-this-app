@@ -1,91 +1,80 @@
-import React, { useEffect } from "react";
-import { View, TouchableOpacity } from "react-native";
-import { Screen } from "@components/templates/screen";
-import { Label, Title } from "@components/atoms";
-import { SecundaryButton } from "@components/molecules";
+import React from "react";
+import {
+  View,
+  FlatList,
+  ImageBackground,
+  TouchableOpacity,
+} from "react-native";
+
 import { useAuth } from "@hooks/AuthHook";
-import theme from "src/theme";
+import { Label, Title } from "@components/atoms";
+import { Page } from "@components/templates/page";
+import { HomeHeader, Notices, SquareBox } from "@components/molecules";
+import { HomeProvider, useHome } from "./context/provider";
+
+import { ShareModel } from "src/models/ShareModel";
+import { IMAGES } from "@assets/index";
 import { useTheme } from "styled-components/native";
-import ExpoConstants from "expo-constants";
-import firestore from "@react-native-firebase/firestore";
-function Home() {
-  const { logout, user } = useAuth();
+import ListItem from "./_components/ListItem";
+
+function HomeScreen() {
   const theme = useTheme();
-
+  const { logout, user } = useAuth();
+  const { shares, status } = useHome();
   const split_email = user?.email?.split("@")[0];
-  const initials = split_email ? split_email.charAt(0).toUpperCase() : "";
-
-  async function getShares() {
-    try {
-      console.log("userUuid => ", user?.uid);
-      const shares = await firestore()
-        .collection("shares")
-        .where("share", "array-contains-any", [
-          { key: user?.uid, can: "write" },
-        ])
-        .get({ source: "server" });
-      shares.forEach((item) => {
-        const currentItem = item.data();
-        console.log(item.id, currentItem);
-        console.log(item.metadata);
-      });
-    } catch (error) {
-      console.warn(error);
-    }
-  }
-  useEffect(() => {
-    getShares();
-  }, []);
+  /** const initials = split_email ? split_email.charAt(0).toUpperCase() : ""; */
+  console.log("HomeScreen", { status, length: shares.length });
 
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        backgroundColor: theme.COLORS.WHITE,
-        justifyContent: "flex-start",
-        marginTop: ExpoConstants.statusBarHeight,
-      }}
-    >
-      <View style={{ flexDirection: "row", width: "100%", top: 8, margin: 28 }}>
-        <TouchableOpacity
-          style={{
-            height: 57,
-            width: 57,
-            borderRadius: 15,
-            backgroundColor: theme.COLORS.TERTIARY,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          onPress={logout}
-        >
-          <Title text={initials} color={theme.COLORS.WHITE} />
-        </TouchableOpacity>
-        <View style={{ marginHorizontal: 8 }}>
-          <Title text={`Hi, ${split_email}`} />
-          <TouchableOpacity
-            activeOpacity={0.3}
-            onPress={() => {
-              getShares();
-              // firestore()
-              //   .collection("shares")
-              //   .add({
-              //     createdAt: new Date(),
-              //     description: "added by app",
-              //     name: "Created by app",
-              //     executeIn: null,
-              //     items: [{ name: "comprar feijão", done: null }],
-              //     owner: user?.uid,
-              //     share: [{ can: "write", key: user?.uid }],
-              //   })
-              //   .then((onfulfilled) => getShares());
-            }}
-          >
-            <Label text={"ver minha conta"} />
-          </TouchableOpacity>
+    <Page>
+      <HomeHeader
+        leftOnPress={() => {
+          console.log("leftOnPress");
+        }}
+        rightOnPress={logout}
+        leftSizeIcon={24}
+        rightSizeIcon={22}
+        title={`Hello, ${split_email}`}
+        subTitle={"see your account"}
+      />
+
+      <View style={{ padding: 14 }}>
+        <Title text="See your last list" />
+        <FlatList<ShareModel>
+          keyExtractor={(item) => item.id}
+          data={shares}
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          renderItem={({ item, index }) => (
+            <ListItem
+              id={item.id}
+              key={item.id}
+              createdAt={item.createdAt!}
+              description={item.description}
+              quantity={item.items.length}
+              textColor={theme.COLORS.BACKGROUND}
+              backgroundImage={item.backgroundImage}
+            />
+          )}
+        />
+        <Notices backgroundColor={theme.COLORS.SECONDARY_500} />
+        <Title text="Your last contacts" />
+        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+          <SquareBox title="MZ" text="Mãe Zotarelli" />
+          <SquareBox title="AO" text="Alisson Zotarelli" />
+          <SquareBox title="APO" text="Ana Paula Zotarelli" />
+          <SquareBox title="AC" text="Artur Cupelli" />
         </View>
       </View>
-    </View>
+    </Page>
+  );
+}
+
+function Home() {
+  return (
+    <HomeProvider>
+      <HomeScreen />
+    </HomeProvider>
   );
 }
 

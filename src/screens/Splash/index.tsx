@@ -8,7 +8,7 @@ import { Screen } from "@components/templates/screen";
 import { Title, Label } from "@components/atoms";
 import { Link, PrimaryButton } from "@components/molecules";
 
-const Splash = () => {
+function Splash() {
   const navigation = useNavigation<IRootAuthProps>();
 
   return (
@@ -42,6 +42,6 @@ const Splash = () => {
       </Link>
     </Screen>
   );
-};
+}
 
 export default Splash;
