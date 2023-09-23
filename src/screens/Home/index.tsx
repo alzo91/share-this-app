@@ -16,6 +16,10 @@ import { ShareModel } from "src/models/ShareModel";
 import { IMAGES } from "@assets/index";
 import { useTheme } from "styled-components/native";
 import ListItem from "./_components/ListItem";
+import { Skeleton } from "moti/skeleton";
+import { MotiView } from "moti";
+import SquareSkeleton from "./_components/SquareSkeleton";
+import ListItemSkeleton from "./_components/ListItemSkeleton";
 
 function HomeScreen() {
   const theme = useTheme();
@@ -40,6 +44,7 @@ function HomeScreen() {
 
       <View style={{ padding: 14 }}>
         <Title text="See your last list" />
+        {status === "loading" && <ListItemSkeleton />}
         <FlatList<ShareModel>
           keyExtractor={(item) => item.id}
           data={shares}
@@ -57,14 +62,21 @@ function HomeScreen() {
             />
           )}
         />
+
         <Notices backgroundColor={theme.COLORS.SECONDARY_500} />
         <Title text="Your last contacts" />
-        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-          <SquareBox title="MZ" text="Mãe Zotarelli" />
-          <SquareBox title="AO" text="Alisson Zotarelli" />
-          <SquareBox title="APO" text="Ana Paula Zotarelli" />
-          <SquareBox title="AC" text="Artur Cupelli" />
-        </View>
+        {status === "loading" ? (
+          <SquareSkeleton />
+        ) : (
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-evenly" }}
+          >
+            <SquareBox title="MZ" text="Mãe Zotarelli" />
+            <SquareBox title="AO" text="Alisson Zotarelli" />
+            <SquareBox title="APO" text="Ana Paula Zotarelli" />
+            <SquareBox title="AC" text="Artur Cupelli" />
+          </View>
+        )}
       </View>
     </Page>
   );
