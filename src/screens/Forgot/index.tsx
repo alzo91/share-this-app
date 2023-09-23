@@ -9,7 +9,7 @@ import { IMAGES } from "@assets/index";
 import { Screen } from "@components/templates/screen";
 import { Title } from "@components/atoms";
 import FormInput from "@components/molecules/FormInput";
-import { Link, SecundaryButton } from "@components/molecules";
+import { Link, SecondaryButton } from "@components/molecules";
 import { forgotinValidation } from "@utils/validations";
 import { useAuth } from "@hooks/AuthHook";
 
@@ -44,7 +44,7 @@ function Forgot() {
         iconName={"email"}
       />
 
-      <SecundaryButton
+      <SecondaryButton
         testID="recovery"
         text="Recovery it!"
         onPress={onSubmit}

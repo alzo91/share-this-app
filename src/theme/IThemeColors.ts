@@ -3,9 +3,9 @@ export interface IThemeColors {
   PRIMARY_300: string;
   PRIMARY_500: string;
   PRIMARY_900: string;
-  SECUDARY_300: string;
-  SECUDARY_500: string;
-  SECUDARY_900: string;
+  SECONDARY_300: string;
+  SECONDARY_500: string;
+  SECONDARY_900: string;
   TERTIARY: string;
   WHITE: string;
   ERROR_LIGHT: string;

@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { IMAGES } from "@assets/index";
 import { Title } from "@components/atoms";
-import { Link, SecundaryButton } from "@components/molecules";
+import { Link, SecondaryButton } from "@components/molecules";
 import FormInput from "@components/molecules/FormInput";
 import { Screen } from "@components/templates/screen";
 
@@ -59,7 +59,7 @@ function SignIn() {
         secureTextEntry={true}
       />
 
-      <SecundaryButton
+      <SecondaryButton
         text="Sign in"
         onPress={onSubmit}
         isLoad={isLoading}
