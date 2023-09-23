@@ -22,6 +22,7 @@ export const BottomNavigator = () => (
           size={size}
         />
       ),
+      tabBarShowLabel: false,
       tabBarActiveTintColor: theme.COLORS.TERTIARY,
       tabBarInactiveTintColor: "gray",
     })}
