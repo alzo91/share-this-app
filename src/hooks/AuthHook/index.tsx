@@ -24,7 +24,7 @@ import { sleep } from "@utils/sleep";
 
 const AuthContext = createContext({} as AuthContextProps);
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [user, setUser] = useState<UserProps | null>(null);
@@ -174,7 +174,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 const useAuth = () => {
   const authContext = useContext(AuthContext);
