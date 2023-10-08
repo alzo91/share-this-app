@@ -16,7 +16,6 @@ import {
   LoggedUserProps,
   LoggingProps,
 } from "src/models/Login";
-import UserFirebase from "@services/user/implementations/user.firebase";
 
 import { AuthContext, authInitialState } from "./context";
 import { AuthReducer } from "./reducer";
@@ -31,7 +30,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   // const UserServices = useMemo(() => new UserFirebase(), []);
   const UserServices = useMemo(() => new UserService().getInstance(), []);
 
-  /*  const onAuthStateChanged = useCallback(
+  const onAuthStateChanged = useCallback(
     async (user: FirebaseAuthTypes.User | null) => {
       if (!user) return;
       setUser({
@@ -51,12 +50,12 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
     },
     []
-  ); */
+  );
 
-  /** useEffect(() => {
+  useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
-  }, []); */
+  }, []);
 
   const notify = useCallback(
     async (params: NotifyProps) => {
