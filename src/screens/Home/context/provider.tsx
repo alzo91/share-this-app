@@ -2,16 +2,15 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
-  useEffect,
+  useMemo,
   useReducer,
 } from "react";
-
-import firestore from "@react-native-firebase/firestore";
 
 import { HomeContext, initialState } from "./context";
 import HomeReducer from "./reducer";
 import { useAuth } from "@hooks/AuthHook";
-import { ShareModel } from "src/models/ShareModel";
+
+import SharesService from "@services/shares";
 
 interface Props {
   children: ReactNode;
@@ -19,51 +18,31 @@ interface Props {
 
 const HomeProvider: React.FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(HomeReducer, initialState);
-  const SHARE_COLLECTION = "shares";
 
   const { user } = useAuth();
 
-  const log = useCallback(
-    (message: any) => console.log("HomeProvider", message),
-    []
-  );
+  const sharesService = useMemo(() => new SharesService().getInstance(), []);
 
   const getShares = useCallback(async () => {
     dispatch({ type: "SET_SCREEN_STATUS", payload: "loading" });
 
     try {
-      log(`userUuid => ${user?.uid}`);
+      console.log(user?.uid);
+      if (!user?.uid) {
+        dispatch({ type: "SET_SCREEN_STATUS", payload: "already" });
+        return;
+      }
 
-      const shares = await firestore()
-        .collection(SHARE_COLLECTION)
-        .where("share", "array-contains-any", [
-          { key: user?.uid, can: "write" },
-        ])
-        .orderBy("createdAt", "desc")
-        .limit(3)
-        .get({ source: "server" });
-
-      const shareList: ShareModel[] = [];
-      shares.forEach((item) => {
-        const currentItem = item.data() as ShareModel;
-        /** console.log(item.id, currentItem); console.log(item.metadata); */
-
-        shareList.push({
-          ...currentItem,
-          id: item.id,
-          //@ts-ignore
-          createdAt: currentItem.createdAt?.toDate(),
-        });
+      const shares = await sharesService.getTheLatest({
+        userUuid: user!.uid!,
+        limit: 3,
       });
-      dispatch({ type: "SET_SHARES", payload: shareList });
+
+      dispatch({ type: "SET_SHARES", payload: { shares } });
     } catch (error) {
       console.warn("HomeProvider", error);
       dispatch({ type: "SET_SCREEN_STATUS", payload: "error" });
     }
-  }, []);
-
-  useEffect(() => {
-    getShares();
   }, []);
 
   return (

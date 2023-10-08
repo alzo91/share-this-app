@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { View, FlatList, ScrollView, RefreshControl } from "react-native";
 
 import { useAuth } from "@hooks/AuthHook";
@@ -14,21 +14,28 @@ import ListItem from "./_components/ListItem";
 
 import SquareSkeleton from "./_components/SquareSkeleton";
 import ListItemSkeleton from "./_components/ListItemSkeleton";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 
 function HomeScreen() {
   const theme = useTheme();
+  const { navigate } = useNavigation<any>();
+  const isFocused = useIsFocused();
   const { logout, user } = useAuth();
   const { shares, status, getShares } = useHome();
   const split_email = user?.email?.split("@")[0];
   /** const initials = split_email ? split_email.charAt(0).toUpperCase() : ""; */
   console.log("HomeScreen", { status, length: shares.length });
 
+  const goToProfile = useCallback(() => navigate("Profile"), []);
+
+  useEffect(() => {
+    if (isFocused) getShares();
+  }, [isFocused]);
+
   return (
     <Page>
       <HomeHeader
-        leftOnPress={() => {
-          console.log("leftOnPress");
-        }}
+        leftOnPress={goToProfile}
         rightOnPress={logout}
         leftSizeIcon={24}
         rightSizeIcon={22}
@@ -86,10 +93,10 @@ function HomeScreen() {
   );
 }
 
-function Home() {
+function Home(props: any) {
   return (
     <HomeProvider>
-      <HomeScreen />
+      <HomeScreen {...props} />
     </HomeProvider>
   );
 }
