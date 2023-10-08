@@ -1,10 +1,11 @@
 import { ShareModel, ShareVisibility } from "src/models/ShareModel";
 
 export type GetAllShares = {
-  skip: number;
-  take: number;
-  order: "asc" | "desc";
-  type: ShareVisibility;
+  skip?: number;
+  take?: number;
+  order?: "asc" | "desc";
+  type?: ShareVisibility;
+  lastID?: string | null;
 };
 
 export type GetTheLatest = { limit?: number | undefined; userUuid: string };
