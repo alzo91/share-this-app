@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useReducer,
 } from "react";
-import { Keyboard } from "react-native";
+import { Alert, Keyboard } from "react-native";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 import { useToast } from "@hooks/ToastHook/provider";
@@ -160,8 +160,20 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = useCallback(async () => {
     try {
-      await UserServices.logout();
-      setUser(null);
+      Alert.alert("Share It", "Would you like to exit the app?", [
+        {
+          isPreferred: true,
+          text: "Cancel",
+        },
+        {
+          text: "Exit",
+          isPreferred: false,
+          onPress: async () => {
+            await UserServices.logout();
+            setUser(null);
+          },
+        },
+      ]);
     } catch (err) {
       console.error(err);
     }
