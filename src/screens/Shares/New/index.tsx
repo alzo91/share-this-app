@@ -47,7 +47,7 @@ function NewShares() {
   const onSubmit = handleSubmit(async (data) => {
     console.log("[NewShares]", data);
     const userId = user?.uid!;
-    const shareData: ShareModel = {
+    const shareData: Omit<ShareModel, "id"> = {
       backgroundImage: selectedBackground,
       name: data.title,
       description: `descr.: ${data.title} `,
