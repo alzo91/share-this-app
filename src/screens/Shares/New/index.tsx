@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ImageBackground, View, FlatList } from "react-native";
 import { useForm, useController } from "react-hook-form";
 import { useTheme } from "styled-components/native";
-import firestore from "@react-native-firebase/firestore";
+
 import { Title } from "@components/atoms";
 import { Page } from "@components/templates/page/";
 import { IMAGES, BACKGROUND_IMAGES } from "@assets/index";
@@ -14,9 +14,9 @@ import {
   InputContainer,
   Scroll,
 } from "./styles";
-import { ShareModel } from "src/models/ShareModel";
 import { useAuth } from "@hooks/AuthHook";
 import { useToast } from "@hooks/ToastHook/provider";
+import SharesService from "@services/shares";
 
 const imageKeys = Object.keys(BACKGROUND_IMAGES).reverse();
 
@@ -25,7 +25,7 @@ type FormData = {
   description: string;
 };
 
-function NewShares() {
+function NewShares(props: any) {
   const [selectedBackground, setSelectedBackground] = useState(imageKeys[0]);
   const theme = useTheme();
   const { user } = useAuth();
@@ -45,20 +45,22 @@ function NewShares() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log("[NewShares]", data);
+    console.log("[NewShares].onSubmit", data);
+
     const userId = user?.uid!;
-    const shareData: Omit<ShareModel, "id"> = {
-      backgroundImage: selectedBackground,
-      name: data.title,
-      description: `descr.: ${data.title} `,
-      items: [{ name: "fone ble, moto buds", done: "pending" }],
-      owner: userId,
-      share: [{ can: "write", key: userId }],
-      createdAt: new Date(),
-      executedIn: null,
-    };
+
     try {
-      const createdList = await firestore().collection("shares").add(shareData);
+      const { uuid } = await new SharesService().getInstance().create({
+        backgroundImage: selectedBackground,
+        name: data.title,
+        description: `descr.: ${data.title} `,
+        items: [{ name: "fone ble, moto buds", done: "pending" }],
+        owner: userId,
+        share: [{ can: "write", key: userId }],
+        createdAt: new Date(),
+        executedIn: null,
+      });
+
       toast.showToast({
         title: "Congrats!",
         text: "List was created successfully",
@@ -66,7 +68,8 @@ function NewShares() {
         timeout: 2000,
         open: true,
       });
-      console.log("[NewShare]", createdList);
+      console.log("[NewShare]", { uuid });
+      props.navigation.goBack();
     } catch (error) {
       toast.showToast({
         title: "Try again",
