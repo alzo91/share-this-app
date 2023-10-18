@@ -2,10 +2,10 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "@screens/Home";
-import { ListShares } from "@screens/Shares/List";
+import ListShares from "@screens/Shares/List";
 
 import { TabIcon } from "./TabIcon";
-import { Empty as EmptyScreen } from "@screens/Empty";
+import EmptyScreen from "@screens/Empty";
 import theme from "src/theme";
 
 const BottomNavigation = createBottomTabNavigator();

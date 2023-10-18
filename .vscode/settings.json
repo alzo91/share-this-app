@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["Ionicons", "Navigations"]
+  "cSpell.words": ["Ionicons", "Navigations"],
+  "java.compile.nullAnalysis.mode": "disabled"
 }

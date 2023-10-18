@@ -4,6 +4,15 @@ import { SharesService, GetAllShares, GetTheLatest } from "../interface";
 
 class SharesServiceFirebase implements SharesService {
   SHARE_COLLECTION = "shares";
+  private lastDoc: any = undefined;
+
+  public setLastDoc(doc: any) {
+    this.lastDoc = doc;
+  }
+
+  public getLastDoc() {
+    return this.lastDoc;
+  }
 
   async create(data: Omit<ShareModel, "id">): Promise<{ uuid: string }> {
     const response = await firestore().collection("shares").add(data);
@@ -17,23 +26,21 @@ class SharesServiceFirebase implements SharesService {
     type,
     lastID,
   }: GetAllShares): Promise<ShareModel[]> {
-    const queryShares = firestore()
+    let queryShares = firestore()
       .collection(this.SHARE_COLLECTION)
       .orderBy("createdAt", order);
 
-    if (skip > 1 && lastID) {
-      const lastDoc = await firestore()
-        .collection(this.SHARE_COLLECTION)
-        .doc(lastID)
-        .get();
+    const lastDocRef = this.getLastDoc();
+    console.log({ lastDocRef });
 
-      queryShares.startAfter(lastDoc);
+    if (skip > 1 && lastDocRef) {
+      queryShares = queryShares.startAfter(lastDocRef);
     }
 
     const shares = await queryShares.limit(take).get();
 
     const formattedShares: ShareModel[] = [];
-    shares.forEach((item) => {
+    shares.docs.forEach((item) => {
       const currentItem = item.data() as ShareModel;
       /** console.log(item.id, currentItem); console.log(item.metadata); */
 
@@ -44,6 +51,8 @@ class SharesServiceFirebase implements SharesService {
         createdAt: currentItem.createdAt?.toDate(),
       });
     });
+
+    this.setLastDoc(shares.docs[shares.docs.length - 1]);
 
     return formattedShares;
   }
