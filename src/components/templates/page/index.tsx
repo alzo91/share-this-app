@@ -1,4 +1,4 @@
-import react, { useContext, ReactNode } from "react";
+import React, { useContext, ReactNode } from "react";
 import { View } from "react-native";
 import ExpoConstants from "expo-constants";
 import { ThemeContext } from "styled-components/native";

@@ -15,9 +15,6 @@ export const ButtonContainer = styled.TouchableOpacity`
   border-radius: 15px;
   width: 100%;
   height: 46px;
-  margin: 12px;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const LabelButton = styled.Text`

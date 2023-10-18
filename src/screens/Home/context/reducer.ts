@@ -9,7 +9,7 @@ const actionHandler = (
   payload: any
 ): { [key: string]: Partial<HomeState> } => ({
   SET_SCREEN_STATUS: { status: payload },
-  SET_SHARES: { shares: payload, status: "already" },
+  SET_SHARES: { shares: payload.shares ?? [], status: "already" },
   SET_CONTACTS: { contacts: payload, status: "already" },
 });
 

@@ -9,7 +9,7 @@ interface Props {
   children: ReactNode;
 }
 
-const ToastProvider: React.FC<Props> = ({ children }) => {
+function ToastProvider({ children }: Props) {
   const [state, dispatch] = useReducer(ToastReducer, initialState);
 
   const showToast = useCallback((props: ToastProps) => {
@@ -46,7 +46,7 @@ const ToastProvider: React.FC<Props> = ({ children }) => {
       )}
     </ToastContext.Provider>
   );
-};
+}
 
 function useToast() {
   const toastContext = useContext(ToastContext);

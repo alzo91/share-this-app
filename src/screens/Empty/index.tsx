@@ -1,7 +1,7 @@
 import { Title } from "@components/atoms";
 import { Screen } from "@components/templates/screen";
 
-export function Empty() {
+export default function Empty() {
   return (
     <Screen>
       <Title text="Empty / Vazio" />

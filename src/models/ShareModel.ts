@@ -1,3 +1,4 @@
+export type ShareVisibility = "all" | "just-mine" | "shares-with-me" | "public";
 export interface ShareWithModel {
   can: "read" | "write";
   key: string;
@@ -19,4 +20,5 @@ export interface ShareModel {
   owner: string;
   share: ShareWithModel[];
   backgroundImage: string;
+  visibility?: ShareVisibility;
 }

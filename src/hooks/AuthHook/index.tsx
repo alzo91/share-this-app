@@ -1,41 +1,55 @@
 import React, {
-  createContext,
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useMemo,
+  useReducer,
 } from "react";
-import { Keyboard } from "react-native";
+import { Alert, Keyboard } from "react-native";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import firestore from "@react-native-firebase/firestore";
 
+import { useToast } from "@hooks/ToastHook/provider";
+import { sleep } from "@utils/sleep";
 import {
-  AuthContextProps,
-  AuthProviderProps,
+  SubscribeProps,
   ForgotPasswordProps,
   LoggedUserProps,
   LoggingProps,
-  NotifyProps,
-  SubscribeProps,
-  UserProps,
-} from "./interface";
-import { useToast } from "@hooks/ToastHook/provider";
-import { sleep } from "@utils/sleep";
+} from "src/models/Login";
 
-const AuthContext = createContext({} as AuthContextProps);
+import { AuthContext, authInitialState } from "./context";
+import { AuthReducer } from "./reducer";
+import { AuthProviderProps, NotifyProps } from "./interface";
+import { User } from "src/models/User";
+import UserService from "@services/user/";
 
-const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [user, setUser] = useState<UserProps | null>(null);
+function AuthProvider({ children }: AuthProviderProps) {
+  const [state, dispatch] = useReducer(AuthReducer, authInitialState);
 
   const { showToast } = useToast();
+  // const UserServices = useMemo(() => new UserFirebase(), []);
+  const UserServices = useMemo(() => new UserService().getInstance(), []);
 
   const onAuthStateChanged = useCallback(
     async (user: FirebaseAuthTypes.User | null) => {
-      setUser(user);
+      if (!user) return;
+      setUser({
+        uuid: user.uid,
+        uid: user.uid,
+        email: user.email!,
+        photoURL: user.photoURL,
+        phoneNumber: user.phoneNumber,
+        displayName: user.displayName,
+        emailVerified: user.emailVerified,
+        isAnonymous: user.isAnonymous,
+        providerId: user.providerId,
+        metadata: {
+          creation: user.metadata.creationTime,
+          lastSign: user.metadata.lastSignInTime,
+        },
+      });
     },
-    [setUser]
+    []
   );
 
   useEffect(() => {
@@ -57,48 +71,41 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     [showToast]
   );
 
-  const updateUser = useCallback(async (user: UserProps) => {
-    await firestore().collection("users").doc(user.uid).set({
-      uuid: user.uid,
-      uid: user.uid,
-      email: user.email,
-      photoURL: user.photoURL,
-      phoneNumber: user.phoneNumber,
-      displayName: user.displayName,
-      emailVerified: false,
-      isAnonymous: false,
-      providerId: user.providerId,
-      metada: user.metadata,
-    });
+  const setLoading = useCallback((isLoading: boolean, error?: string) => {
+    dispatch({ type: "SET_LOADING", payload: { isLoading, error } });
+  }, []);
+
+  const setUser = useCallback((user?: User | null) => {
+    dispatch({ type: "SET_USER", payload: { user: user } });
   }, []);
 
   const subscribe = useCallback(
     async (data: SubscribeProps): Promise<boolean> => {
       try {
-        setIsLoading(true);
-        setError(undefined);
+        setLoading(true, undefined);
         Keyboard.dismiss();
-        const { user } = await auth().createUserWithEmailAndPassword(
-          data.email,
-          data.password
-        );
-        await updateUser(user);
+
+        const user = await UserServices.create({ ...data });
+
         await notify({
           title: "User created",
-          text: "The user was successfully created",
+          text: `${user.email} successfully`,
           type: "success",
         });
+
+        setLoading(false, undefined);
+        setUser(user);
         return true;
       } catch (err) {
+        console.error(err);
         await notify({
           title: "User didn't create.",
           text: "The email address is already in use by another account",
           type: "error",
         });
-        setError(JSON.stringify(err));
+
+        setLoading(false, JSON.stringify(err));
         return false;
-      } finally {
-        setIsLoading(false);
       }
     },
     []
@@ -107,20 +114,22 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const forgotPassword = useCallback(
     async (data: ForgotPasswordProps): Promise<boolean> => {
       try {
-        setIsLoading(true);
-        setError(undefined);
+        setLoading(true, undefined);
         Keyboard.dismiss();
-        await auth().sendPasswordResetEmail(data.email);
+        await UserServices.recovery({ email: data.email });
         await notify({
           title: "Forgot your password",
           text: `We sent an email to recovery your account. Please check your email`,
           type: "info",
         });
+        setLoading(false, undefined);
         return true;
       } catch (err) {
+        console.error(err);
+        const message =
+          "An error ocurred when you tried to recovery your password";
+        setLoading(false, message);
         return false;
-      } finally {
-        setIsLoading(false);
       }
     },
     []
@@ -129,52 +138,61 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logging = useCallback(
     async (data: LoggingProps): Promise<LoggedUserProps> => {
       try {
-        setIsLoading(true);
-        setError(undefined);
+        setLoading(true, undefined);
         Keyboard.dismiss();
-        const logged = await auth().signInWithEmailAndPassword(
-          data.email,
-          data.password
-        );
-        await updateUser(logged.user);
-        setUser(logged.user);
-        return { user: logged.user };
+        const user = await UserServices.logging({ ...data });
+        setUser(user);
+        return { user };
       } catch (err) {
+        console.error(err);
+        const message = "The user / password is invalid";
         await notify({
-          text: "The password is invalid or the user does not have a password",
+          text: message,
           title: "Logging Error",
           type: "error",
         });
-        return {
-          error: "The password is invalid or the user does not have a password",
-        };
-      } finally {
-        setIsLoading(false);
+        setLoading(false, message);
+        return { error: message };
       }
     },
     []
   );
 
   const logout = useCallback(async () => {
-    await auth().signOut();
+    try {
+      Alert.alert("Share It", "Would you like to exit the app?", [
+        {
+          isPreferred: true,
+          text: "Cancel",
+        },
+        {
+          text: "Exit",
+          isPreferred: false,
+          onPress: async () => {
+            await UserServices.logout();
+            setUser(null);
+          },
+        },
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        error,
-        isLoading,
-        forgotPassword,
-        logging,
+        ...state,
         subscribe,
-        user,
+        logging,
+        forgotPassword,
         logout,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 const useAuth = () => {
   const authContext = useContext(AuthContext);
