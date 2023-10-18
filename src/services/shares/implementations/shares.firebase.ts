@@ -37,7 +37,7 @@ class SharesServiceFirebase implements SharesService {
       queryShares = queryShares.startAfter(lastDocRef);
     }
 
-    const shares = await queryShares.limit(take).get({ source: "cache" });
+    const shares = await queryShares.limit(take).get();
 
     const formattedShares: ShareModel[] = [];
     shares.docs.forEach((item) => {
@@ -66,7 +66,7 @@ class SharesServiceFirebase implements SharesService {
       .where("share", "array-contains-any", [{ key: userUuid, can: "write" }])
       .orderBy("createdAt", "desc")
       .limit(limit)
-      .get({ source: "cache" });
+      .get();
 
     const shareList: ShareModel[] = [];
     shares.forEach((item) => {
