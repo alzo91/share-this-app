@@ -37,7 +37,7 @@ class SharesServiceFirebase implements SharesService {
       queryShares = queryShares.startAfter(lastDocRef);
     }
 
-    const shares = await queryShares.limit(take).get();
+    const shares = await queryShares.limit(take).get({ source: "cache" });
 
     const formattedShares: ShareModel[] = [];
     shares.docs.forEach((item) => {
