@@ -8,28 +8,31 @@ import SharesService from "@services/shares";
 import { ShareModel } from "src/models/ShareModel";
 import ListItem from "./_components/ListItem";
 import { emptyFunction } from "@utils/emptyFunction";
+import { useAuth } from "@hooks/AuthHook";
 
 export default function ListShares() {
   const [shares, setShares] = useState<ShareModel[]>([]);
   const [skip, setSkip] = useState<number>(1);
   const [loading, setLoading] = useState(true);
-
+  const { user } = useAuth();
   const sharesServices = useMemo(() => new SharesService().getInstance(), []);
 
   const getShares = useCallback(async () => {
     console.log("list all shares", { skip });
     setLoading(true);
-    const sharesSize = shares.length - 1;
-    const lastID = skip > 1 ? shares[sharesSize].id : undefined;
+    /* const sharesSize = shares.length - 1;*/
+    /** const lastID = skip > 1 ? shares[sharesSize].id : undefined;*/
 
     const data = await sharesServices.getAll({
       skip,
       order: "desc",
       take: 8,
       type: "all",
-      lastID,
+      userUuid: user?.uuid!,
     });
+
     if (data) setShares((state) => [...state, ...data]);
+
     setLoading(false);
   }, [skip, shares]);
 
