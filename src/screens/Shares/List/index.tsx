@@ -31,7 +31,8 @@ export default function ListShares() {
       userUuid: user?.uuid!,
     });
 
-    if (data) setShares((state) => [...state, ...data]);
+    if (data && skip > 1) setShares((state) => [...state, ...data]);
+    else setShares([...data]);
 
     setLoading(false);
   }, [skip, shares]);
@@ -43,6 +44,10 @@ export default function ListShares() {
   const handleLoadShares = useCallback(() => {
     console.log("handleLoadShares");
     setSkip((state) => state + 1);
+  }, []);
+
+  const handleRefreshes = useCallback(() => {
+    setSkip(1);
   }, []);
 
   return (
@@ -61,7 +66,7 @@ export default function ListShares() {
           <RefreshControl
             colors={["#0F0704"]}
             refreshing={loading}
-            onRefresh={emptyFunction}
+            onRefresh={handleRefreshes}
           />
         }
         renderItem={({ item, index }) => (

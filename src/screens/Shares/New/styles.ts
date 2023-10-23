@@ -7,11 +7,13 @@ export const Scroll = styled.ScrollView`
 
 export const InputContainer = styled.View`
   flex-direction: row;
+  justify-content: space-between;
   width: 100%;
   align-items: center;
   background-color: ${({ theme }) => theme.COLORS.SECONDARY_500};
   padding: 7px;
   border-radius: 15px;
+  margin: 4px 0;
 `;
 
 export const Input = styled.TextInput`
@@ -35,4 +37,21 @@ export const ImageContainer = styled.TouchableOpacity<{ selected: boolean }>`
 export const ImageBox = styled.View`
   width: 70px;
   height: 85px;
+`;
+
+export const Bagged = styled.TouchableOpacity<{
+  width: number;
+  selected: boolean;
+}>`
+  align-items: flex-end;
+  padding: 0 6px;
+  background-color: ${({ selected, theme }) =>
+    selected ? theme.COLORS.TERTIARY : "transparent"};
+  border-radius: 15px;
+  border-color: ${({ selected, theme }) =>
+    selected ? theme.COLORS.BACKGROUND : theme.COLORS.TERTIARY};
+  border-width: 1px;
+  justify-content: center;
+  align-items: center;
+  width: ${(props) => props.width}px;
 `;
