@@ -3,14 +3,15 @@
     "name": "Share This",
     "slug": "share-this",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
+      "googleServicesFile": "./resources/firebase/google-services.json",
       "package": "com.sharethis"
     },
     "ios": {
+      "googleServicesFile": "./resources/firebase/GoogleService-Info.plist",
       "bundleIdentifier": "com.sharethis"
-    }
+    },
+    "plugins": ["@react-native-firebase/app", "@react-native-firebase/auth"]
   }
 }
