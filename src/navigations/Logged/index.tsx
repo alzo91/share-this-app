@@ -1,14 +1,14 @@
 import React from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import NewShares from "@screens/Shares/New";
 import BottomNavigator from "./BottomNav";
-import { RootLoggedParamsList } from "./types";
+import RootLoggedParamsList from "./types";
+
+const Stack = createNativeStackNavigator<RootLoggedParamsList>();
 
 function Logged() {
-  const Stack = createNativeStackNavigator<RootLoggedParamsList>();
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack.Navigator

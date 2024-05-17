@@ -5,7 +5,7 @@ export type GetAllShares = {
   take?: number;
   order?: "asc" | "desc";
   type?: ShareVisibility;
-  lastID?: string | null;
+  userUuid: string;
 };
 
 export type GetTheLatest = { limit?: number | undefined; userUuid: string };

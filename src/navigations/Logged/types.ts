@@ -1,8 +1,12 @@
 import { NavigationProp } from "@react-navigation/native";
 
-export type RootLoggedParamsList = {
+type RootLoggedParamsList = {
   InitialApp: undefined;
   NewShares: undefined;
 };
 
-export type IRootAuthProps = NavigationProp<RootLoggedParamsList>;
+type IRootAuthProps = NavigationProp<RootLoggedParamsList>;
+
+export default RootLoggedParamsList;
+
+export { IRootAuthProps };

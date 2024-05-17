@@ -24,10 +24,11 @@ class SharesServiceFirebase implements SharesService {
     take = 10,
     order,
     type,
-    lastID,
+    userUuid,
   }: GetAllShares): Promise<ShareModel[]> {
     let queryShares = firestore()
       .collection(this.SHARE_COLLECTION)
+      .where("share", "array-contains-any", [{ key: userUuid, can: "write" }])
       .orderBy("createdAt", order);
 
     const lastDocRef = this.getLastDoc();
@@ -66,7 +67,7 @@ class SharesServiceFirebase implements SharesService {
       .where("share", "array-contains-any", [{ key: userUuid, can: "write" }])
       .orderBy("createdAt", "desc")
       .limit(limit)
-      .get({ source: "cache" });
+      .get();
 
     const shareList: ShareModel[] = [];
     shares.forEach((item) => {

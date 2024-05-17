@@ -1,4 +1,4 @@
-export type ShareVisibility = "all" | "just-mine" | "shares-with-me" | "public";
+export type ShareVisibility = "all" | "just-mine" | "shared" | "public";
 export interface ShareWithModel {
   can: "read" | "write";
   key: string;

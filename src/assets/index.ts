@@ -5,6 +5,7 @@ export const BACKGROUND_IMAGES = {
   backgroundRiver: require("./background-river.png"),
   backgroundShadow: require("./background-shadow.png"),
   backgroundSun: require("./background-sun.png"),
+  backgroundCream: require("./background-cream.png"),
 };
 
 export const IMAGES = {
