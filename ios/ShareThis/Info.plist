@@ -30,6 +30,12 @@
           <string>com.sharethis</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.720617877358-4ol3v891rpo3t7fdocc9foauoeeoa2fd</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>
