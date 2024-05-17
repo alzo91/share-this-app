@@ -2,11 +2,21 @@
   "expo": {
     "name": "Share This",
     "slug": "share-this",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "assetBundlePatterns": ["**/*"],
+    "icon": "./assets/app/icon.png",
+    "splash": {
+      "image": "./assets/app/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    },
     "android": {
       "googleServicesFile": "./resources/firebase/google-services.json",
-      "package": "com.sharethis"
+      "package": "com.sharethis",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "ios": {
       "googleServicesFile": "./resources/firebase/GoogleService-Info.plist",
@@ -42,7 +52,8 @@
             "useFrameworks": "static"
           }
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }
