@@ -3,7 +3,9 @@
     "name": "Share This",
     "slug": "share-this",
     "version": "2.0.0",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "icon": "./assets/app/icon.png",
     "splash": {
       "image": "./assets/app/splash.png",
@@ -25,19 +27,27 @@
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "CA92.1"
+            ]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategorySystemBootTime",
-            "NSPrivacyAccessedAPITypeReasons": ["3D61.1"]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "3D61.1"
+            ]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-            "NSPrivacyAccessedAPITypeReasons": ["7D9E.1"]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "7D9E.1"
+            ]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
-            "NSPrivacyAccessedAPITypeReasons": ["0A2A.1"]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "0A2A.1"
+            ]
           }
         ]
       }
@@ -54,6 +64,12 @@
         }
       ],
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c21cd90f-fc70-43c7-8b02-726c11ab25c5"
+      }
+    },
+    "owner": "alzo.zotarelli"
   }
 }
