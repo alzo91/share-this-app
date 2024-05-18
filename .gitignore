@@ -58,3 +58,4 @@ dist/
 tests/reports/
 
 android/app/google-services.json
+resources/*
