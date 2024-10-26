@@ -1,4 +1,4 @@
-{
+module.exports = {
   "expo": {
     "name": "Share This",
     "slug": "share-this",
@@ -13,7 +13,7 @@
       "backgroundColor": "#FFFFFF"
     },
     "android": {
-      "googleServicesFile": "./resources/firebase/google-services.json",
+      "googleServicesFile": process.env.GOOGLE_SERVICES_JSON, // "./resources/firebase/google-services.json",
       "package": "com.sharethis",
       "adaptiveIcon": {
         "foregroundImage": "./assets/app/adaptive-icon.png",

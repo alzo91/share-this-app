@@ -4,7 +4,7 @@ const config: Config.InitialOptions = {
   preset: "jest-expo",
   verbose: true,
   setupFilesAfterEnv: [
-    "@testing-library/jest-native/extend-expect",
+    "@testing-library/react-native/extend-expect",
     "jest-styled-components",
     "jest-styled-components/native",
   ],
