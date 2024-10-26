@@ -6,8 +6,9 @@ import { Label } from "@components/atoms";
 import { ShareModel } from "src/models/ShareModel";
 import { Bagged, Container, LowerContainer, Title, Text } from "./styles";
 
-const ListItem = (item: ShareModel & { index: number }) => (
-  <Container key={`${item.id}-${item.index}`}>
+type ListItemProps = {item: ShareModel;index: number;  onPress: Function }
+const ListItem = ({item, index,onPress}: ListItemProps) => (
+  <Container key={`${item.id}-${index}`} onPress={onPress}>
     <ImageBackground
       resizeMode="cover"
       style={{

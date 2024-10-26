@@ -14,6 +14,11 @@ export const signupValidation = Yup.object({
   ),
 });
 
-export const forgotinValidation = Yup.object({
+export const forgotValidation = Yup.object({
   email: Yup.string().email().required(),
 });
+
+export const addShareValidation = Yup.object({
+  title: Yup.string().min(5).max(55).required(),
+  description: Yup.string().min(5).max(255).required(),
+})

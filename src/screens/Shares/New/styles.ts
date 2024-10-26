@@ -5,7 +5,9 @@ export const Scroll = styled.ScrollView`
   padding: 10px;
 `;
 
-export const InputContainer = styled.View`
+type InputContainerProps = {error?: boolean}
+
+export const InputContainer = styled.View<InputContainerProps>`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
@@ -13,6 +15,8 @@ export const InputContainer = styled.View`
   background-color: ${({ theme }) => theme.COLORS.SECONDARY_500};
   padding: 7px;
   border-radius: 15px;
+  border-color: ${(props) => props.error ? props.theme.COLORS.ERROR_DARK : ""};
+  border-width: ${(props) => props.error ? `0.7px` : `0px`};;
   margin: 4px 0;
 `;
 
@@ -44,7 +48,7 @@ export const Bagged = styled.TouchableOpacity<{
   selected: boolean;
 }>`
   align-items: flex-end;
-  padding: 0 6px;
+  padding: 3px 8px;
   background-color: ${({ selected, theme }) =>
     selected ? theme.COLORS.TERTIARY : "transparent"};
   border-radius: 15px;

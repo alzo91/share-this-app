@@ -3,17 +3,19 @@ import { FlatList, RefreshControl, View } from "react-native";
 
 import { Title } from "@components/atoms";
 import { Page } from "@components/templates/page";
+import { useAuth } from "@hooks/AuthHook";
 import SharesService from "@services/shares";
 
 import { ShareModel } from "src/models/ShareModel";
 import ListItem from "./_components/ListItem";
-import { emptyFunction } from "@utils/emptyFunction";
-import { useAuth } from "@hooks/AuthHook";
+import { useNavigation } from "@react-navigation/native";
+
 
 export default function ListShares() {
   const [shares, setShares] = useState<ShareModel[]>([]);
   const [skip, setSkip] = useState<number>(1);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation<any>()
   const { user } = useAuth();
   const sharesServices = useMemo(() => new SharesService().getInstance(), []);
 
@@ -50,6 +52,10 @@ export default function ListShares() {
     setSkip(1);
   }, []);
 
+  const goToEditShare = useCallback((id: string) => {
+    navigation.navigate("EditShare",{params: {id},id})
+  },[])
+
   return (
     <Page>
       <View style={{ paddingHorizontal: 16 }}>
@@ -70,7 +76,7 @@ export default function ListShares() {
           />
         }
         renderItem={({ item, index }) => (
-          <ListItem key={`${item.id}-${index}`} index={index} {...item} />
+          <ListItem key={`${item.id}-${index}`} index={index} item={item} onPress={() => goToEditShare(item.id)} />
         )}
       />
     </Page>

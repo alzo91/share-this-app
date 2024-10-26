@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ImageBackground,
   View,
@@ -23,6 +23,10 @@ import {
 import { useAuth } from "@hooks/AuthHook";
 import { useToast } from "@hooks/ToastHook/provider";
 import SharesService from "@services/shares";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { addShareValidation } from "@utils/validations";
+import { useNavigation } from "@react-navigation/native";
+import { IRootAuthProps } from "@navigations/Logged/types";
 
 const imageKeys = Object.keys(BACKGROUND_IMAGES).reverse();
 
@@ -37,21 +41,35 @@ function NewShares(props: any) {
   const theme = useTheme();
   const { user } = useAuth();
   const toast = useToast();
+  const navigation = useNavigation<IRootAuthProps>();
+
+  const navigateToAddItems = useCallback(
+    () =>
+      navigation.navigate("AddItemsToShare", { image_id: selectedBackground }),
+    [navigation]
+  );
 
   const { control, handleSubmit } = useForm<FormData>({
     defaultValues: {
       title: "",
       description: "",
     },
+    resolver: yupResolver(addShareValidation),
   });
 
-  const { field: titleField } = useController({
+  const {
+    field: titleField,
+    formState: { errors: title_errors },
+  } = useController({
     control,
     name: "title",
     defaultValue: "",
   });
 
-  const { field: descriptionField } = useController({
+  const {
+    field: descriptionField,
+    formState: { errors: descr_errors },
+  } = useController({
     control,
     name: "description",
     defaultValue: "",
@@ -119,7 +137,7 @@ function NewShares(props: any) {
       </View>
       <Scroll>
         <Title text="Edit your list" fontSize={14} />
-        <InputContainer>
+        <InputContainer error={title_errors?.title ? true : false}>
           <Title text="Title" fontSize={12} />
 
           <Input
@@ -130,7 +148,7 @@ function NewShares(props: any) {
             value={titleField.value}
           />
         </InputContainer>
-        <InputContainer>
+        <InputContainer error={descr_errors.title ? true : false}>
           <Title text="Description" fontSize={12} />
           <Input
             placeholder={`typing your ${descriptionField.name} here...`}
@@ -211,7 +229,7 @@ function NewShares(props: any) {
         )}
         <InputContainer>
           <Title text="It allow to add some items" fontSize={12} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={navigateToAddItems}>
             <MaterialCommunityIcon
               name="plus-circle-outline"
               color={theme.COLORS.PRIMARY_300}

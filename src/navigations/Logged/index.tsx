@@ -5,6 +5,8 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import NewShares from "@screens/Shares/New";
 import BottomNavigator from "./BottomNav";
 import RootLoggedParamsList from "./types";
+import EditShare from "@screens/Shares/Edit";
+import NewItems from "@screens/Shares/New/items";
 
 const Stack = createNativeStackNavigator<RootLoggedParamsList>();
 
@@ -24,6 +26,18 @@ function Logged() {
           component={NewShares}
           options={{
             animation: "fade_from_bottom",
+          }}
+        />
+        <Stack.Screen
+          name="AddItemsToShare"
+          component={NewItems}
+          options={{ animation: "slide_from_right" }}
+        />
+        <Stack.Screen
+          name="EditShare"
+          component={EditShare}
+          options={{
+            animation: "slide_from_right",
           }}
         />
       </Stack.Navigator>

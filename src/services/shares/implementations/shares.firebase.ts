@@ -3,6 +3,7 @@ import { ShareModel } from "src/models/ShareModel";
 import { SharesService, GetAllShares, GetTheLatest } from "../interface";
 
 class SharesServiceFirebase implements SharesService {
+
   SHARE_COLLECTION = "shares";
   private lastDoc: any = undefined;
 
@@ -82,6 +83,13 @@ class SharesServiceFirebase implements SharesService {
       });
     });
     return shareList;
+  }
+
+  async getOne(id: string): Promise<ShareModel> {
+    console.log(id)
+    const share = await firestore().collection(this.SHARE_COLLECTION).doc(id).get()
+    console.log(share)
+    return share.data() as ShareModel;
   }
 }
 

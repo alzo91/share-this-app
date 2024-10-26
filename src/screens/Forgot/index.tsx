@@ -10,7 +10,7 @@ import { Screen } from "@components/templates/screen";
 import { Title } from "@components/atoms";
 import FormInput from "@components/molecules/FormInput";
 import { Link, SecondaryButton } from "@components/molecules";
-import { forgotinValidation } from "@utils/validations";
+import { forgotValidation as forgotValidation } from "@utils/validations";
 import { useAuth } from "@hooks/AuthHook";
 
 function Forgot() {
@@ -21,7 +21,7 @@ function Forgot() {
     defaultValues: {
       email: "",
     },
-    resolver: yupResolver(forgotinValidation),
+    resolver: yupResolver(forgotValidation),
   });
 
   const onSubmit = handleSubmit(async (data) => {
